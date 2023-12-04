@@ -1,51 +1,46 @@
-require("dotenv").config()
-const multer = require("multer")
-const mongoose = require("mongoose")
-const bcrypt = require("bcrypt")
-const File = require("./models/File")
+require("dotenv").config();
+const multer = require("multer");
+const mongoose = require("mongoose");
+const File = require("./models/File");
+const path = require("path")
 
-const express = require("express")
-const app = express()
-app.use(express.urlencoded({ extended: true }))
+const express = require("express");
+const app = express();
+app.use(express.urlencoded({ extended: true }));
 
-const upload = multer({ dest: "uploads" })
+const upload = multer({ dest: "uploads" });
 
-mongoose.connect(process.env.DATABASE_URL)
+mongoose.connect(process.env.DATABASE_URL);
 
-app.set("view engine", "ejs")
+app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res) => {
-  res.render("index")
-})
+  res.sendFile(__dirname + "/public/html/index.html");
+});
 
 app.post("/upload", upload.single("file"), async (req, res) => {
   const fileData = {
     path: req.file.path,
     originalName: req.file.originalname,
-  }
+  };
 
-  const file = await File.create(fileData)
+  const file = await File.create(fileData);
 
-  res.render("index", { fileLink: `${req.headers.origin}/file/${file.id}` })
-})
+  res.send(
+    `<p>Your file is uploaded. Download it <a href="${req.headers.origin}/file/${file.id}">here</a>.</p>`
+  );
+});
 
-app.route("/file/:id").get(handleDownload).post(handleDownload)
+app.get("/file/:id", async (req, res) => {
+  const file = await File.findById(req.params.id);
 
-async function handleDownload(req, res) {
-  const file = await File.findById(req.params.id)
+  file.downloadCount++;
+  await file.save();
+  console.log(file.downloadCount);
 
-  if (file.password != null) {
-    if (req.body.password == null) {
-      res.render("password")
-      return
-    }
-  }
+  res.download(file.path, file.originalName);
+});
 
-  file.downloadCount++
-  await file.save()
-  console.log(file.downloadCount)
-
-  res.download(file.path, file.originalName)
-}
-
-app.listen(process.env.PORT)
+app.listen(process.env.PORT, () => {
+  console.log(`Server is running on port ${process.env.PORT}`);
+});
