@@ -9,12 +9,6 @@ const File = new mongoose.Schema({
     type: String,
     required: true,
   },
-  password: String,
-  downloadCount: {
-    type: Number,
-    required: true,
-    default: 0,
-  },
 })
 
 module.exports = mongoose.model("File", File)
