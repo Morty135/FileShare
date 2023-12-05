@@ -74,11 +74,10 @@ file.addEventListener('change', (e) => {
 });
 
 function copyLinkToClipboard() {
-  var linkText = document.getElementById('file-link').href;
-  var tempInput = document.createElement('input');
-  tempInput.value = linkText;
-  document.body.appendChild(tempInput);
-  tempInput.select();
+  var r = document.createRange();
+  r.selectNode(document.getElementById("file-link"));
+  window.getSelection().removeAllRanges();
+  window.getSelection().addRange(r);
   document.execCommand('copy');
-  document.body.removeChild(tempInput);
+  window.getSelection().removeAllRanges();
 }
