@@ -7,8 +7,6 @@ function shareFile() {
   var xhr = new XMLHttpRequest();
   xhr.open('POST', '/upload', true);
 
-  console.log(formData);
-
   // Track upload progress
   xhr.upload.addEventListener('progress', function (e) {
     if (e.lengthComputable) {
