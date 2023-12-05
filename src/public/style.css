@@ -36,6 +36,56 @@ body {
   margin-right: auto;
 }
 
+.file-input {
+  align-content: center;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.file-input input[type="file"] {
+  opacity: 0;
+  position: absolute;
+}
+
+.file-input label {
+  background-color: black;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.file-input label:hover {
+  background-color: #333; /* Change background color on hover */
+}
+
+.file-input label::before {
+  content: '\f1e0'; /* Unicode character for a share icon */
+  font-family: 'FontAwesome'; /* Use a font that includes the share icon */
+  font-size: 20px;
+}
+
+
+button {
+  /* Keep your existing styles for the button */
+  background-color: black;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #333;
+}
+
 .main-container {
   background-color: var(--tile-bg-color);
   padding: var(--tile-padding);
@@ -46,6 +96,23 @@ body {
   margin-left: 40px; /* Adjusted left margin */
   margin-right: 40px; /* Adjusted right margin */
   border-radius: 5px;
+}
+
+.link {
+  background-color: black;
+  color: white;
+  padding: 10px 0px;
+  margin-top: 20px; /* Adjust margin as needed */
+}
+
+.link a {
+  color: #007BFF; /* Adjust link color */
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.link a:hover {
+  text-decoration: underline; /* Add underline on hover */
 }
 
 footer {

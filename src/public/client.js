@@ -59,3 +59,26 @@ function resetProgress() {
   progressBar.value = 0;
   progressText.innerText = '0%';
 }
+
+const file = document.querySelector('#file');
+file.addEventListener('change', (e) => {
+  // Get the selected file
+  const [file] = e.target.files;
+  // Get the file name and size
+  const { name: fileName, size } = file;
+  // Convert size in bytes to kilo bytes
+  const fileSize = (size / 1000).toFixed(2);
+  // Set the text content
+  const fileNameAndSize = `${fileName} - ${fileSize}KB`;
+  document.querySelector('.file-name').textContent = fileNameAndSize;
+});
+
+function copyLinkToClipboard() {
+  var linkText = document.getElementById('file-link').href;
+  var tempInput = document.createElement('input');
+  tempInput.value = linkText;
+  document.body.appendChild(tempInput);
+  tempInput.select();
+  document.execCommand('copy');
+  document.body.removeChild(tempInput);
+}

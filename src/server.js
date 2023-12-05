@@ -29,7 +29,7 @@ app.post("/upload", upload.single("file"), async (req, res) => {
   const file = await File.create(fileData);
 
   res.send(
-    `<p>File download link: <a href="${req.headers.origin}/file/${file.id}">${req.headers.origin}/file/${file.id}</a>.</p>`
+    `<p class="link">File download link: <a id="file-link" href="${req.headers.origin}/file/${file.id}">${req.headers.origin}/file/${file.id}</a></p>`
   );
 });
 

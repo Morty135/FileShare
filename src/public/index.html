@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="png" href="images/files.png">
-  <title>FileShare by ServerStack</title>
+  <title>FileShare</title>
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
@@ -17,20 +17,24 @@
 
   <div class="main-container">
     <section class="main-section">
-        <h2>FileShare</h2>
+        <h2>ServerStack's FileShare</h2>
         <p>Fast and simple way to share files.</p>
     </section>
 
-    <div id="fileInfo" class="file-info"></div>
     <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
-      <label for="file">File:</label>
-      <input type="file" id="file" name="file" required />
+      <div class="file-input">
+        <input class="file" type="file" id="file" name="file" required >
+        <label for="file" class="file-name">
+          Select file
+        </label>
+      </div>
       <button type="button" onclick="shareFile()">Share</button>
     </form>
     <div id="progress-container" style="display: none;">
       <progress id="upload-progress" max="100" value="0"></progress>
       <span id="progress-text">0%</span>
     </div>
+    <div id="fileInfo" class="file-info"></div>
     <script src="client.js"></script>
 
   </div>
