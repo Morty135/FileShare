@@ -5,7 +5,7 @@ function shareFile() {
   formData.append('file', fileInput.files[0]);
 
   var xhr = new XMLHttpRequest();
-  xhr.open('POST', '/upload', true);
+  xhr.open('POST', 'http://localhost:3001/upload', true);
 
   // Track upload progress
   xhr.upload.addEventListener('progress', function (e) {
