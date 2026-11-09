@@ -1,0 +1,31 @@
+# Logs
+logs/
+
+# Dependency directories
+node_modules
+npm-debug.log
+
+# Environment file
+.env
+
+# Test files
+**/*.test.js
+**/*.test.ts
+
+# Build artifacts
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+.dockerignore
+Dockerfile
+docker-compose.yml

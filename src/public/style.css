@@ -1,126 +1,312 @@
-:root {
-  --background-color: #0b2545;
-  --header-bg-color: #134074;
-  --nav-bg-color: #13315c;
-  --text-color: #eef4ed;
-  --tile-bg-color: #13315c;
-  --tile-padding: 20px;
-  --tile-margin: 10px;
-  --tile-hover-scale: 1.05;
-  --footer-bg-color: #13315c;
-}
+/* Y2K Chaotic Aesthetic CSS - serverstack.net inspired */
+/* This creates a truly chaotic, organic layout that feels like early 2000s web design */
 
-header {
-  background-color: var(--header-bg-color);
-  color: var(--text-color);
-  padding: 10px;
-  display: flex;
-  justify-content: center; /* Center the content horizontally */
-  align-items: center; /* Center the content vertically */
-}
-
-h1 {
-  margin: 0;
-  margin-left: 30px;
-  align-items: center;
-  align-content: center;
-  align-self: center;
+/* Global styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', 'Courier New', sans-serif;
 }
 
 body {
-  font-family: 'Arial', sans-serif;
-  margin: 0px; /* Added margin */
-  padding: 0;
-  background-color: var(--background-color);
-  margin-left: auto;
-  margin-right: auto;
+    background: #000 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23000"/><path d="M0 0L100 100M100 0L0 100" stroke="%23333" stroke-width="1"/></svg>');
+    color: #0f0;
+    background-size: 20px 20px;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
 }
 
+/* Chaotic grid background */
+.grid-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        linear-gradient(rgba(0, 255, 0, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 0, 0.05) 1px, transparent 1px);
+    background-size: 30px 30px;
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* Animated elements */
+@keyframes flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        opacity: 1;
+    }
+    20%, 24%, 55% {
+        opacity: 0.4;
+    }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Header styling */
+header {
+    background: linear-gradient(135deg, #134074, #0b2545);
+    color: #eef4ed;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px solid #00ff00;
+    box-shadow: 0 0 15px #00ff00, inset 0 0 10px #00ff00;
+    animation: flicker 3s infinite;
+    position: relative;
+    overflow: hidden;
+}
+
+header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(0, 255, 0, 0.1) 10px,
+        rgba(0, 255, 0, 0.1) 20px
+    );
+    pointer-events: none;
+}
+
+h1 {
+    margin: 0;
+    font-size: 2.5em;
+    text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+    animation: pulse 2s infinite;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: linear-gradient(to right, #00ff00, #00ff00, #ffff00, #00ff00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Main container */
+.main-container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background: rgba(10, 20, 30, 0.8);
+    border: 3px solid #00ff00;
+    box-shadow: 0 0 20px #00ff00, inset 0 0 15px #00ff00;
+    position: relative;
+    overflow: hidden;
+}
+
+.main-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 255, 0, 0.05),
+        rgba(0, 255, 0, 0.05) 1px,
+        transparent 1px,
+        transparent 20px
+    );
+    pointer-events: none;
+}
+
+/* Section styling */
+.main-section {
+    text-align: center;
+    margin-bottom: 30px;
+    border: 2px dashed #00ff00;
+    padding: 20px;
+    background: rgba(0, 20, 0, 0.3);
+    animation: flicker 5s infinite;
+}
+
+.main-section h2 {
+    color: #00ff00;
+    text-shadow: 0 0 5px #00ff00;
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.main-section p {
+    color: #00ff00;
+    font-size: 1.2em;
+}
+
+/* File input styling */
 .file-input {
-  align-content: center;
-  margin-bottom: 20px;
-  margin-top: 20px;
+    position: relative;
+    margin: 30px 0;
+    text-align: center;
 }
 
 .file-input input[type="file"] {
-  opacity: 0;
-  position: absolute;
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    z-index: 2;
 }
 
 .file-input label {
-  background-color: black;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s;
+    display: inline-block;
+    padding: 15px 30px;
+    background: linear-gradient(135deg, #134074, #0b2545);
+    color: #eef4ed;
+    border: 3px solid #00ff00;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-shadow: 0 0 5px #00ff00;
+    box-shadow: 0 0 10px #00ff00;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    animation: pulse 3s infinite;
 }
 
 .file-input label:hover {
-  background-color: #333; /* Change background color on hover */
+    transform: scale(1.05);
+    box-shadow: 0 0 20px #00ff00;
+    background: linear-gradient(135deg, #0b2545, #134074);
 }
 
 .file-input label::before {
-  content: '\f1e0'; /* Unicode character for a share icon */
-  font-family: 'FontAwesome'; /* Use a font that includes the share icon */
-  font-size: 20px;
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(0, 255, 0, 0.2), transparent);
+    transform: rotate(45deg);
+    transition: all 0.5s ease;
 }
 
+.file-input label:hover::before {
+    transform: rotate(45deg) translateX(100%);
+}
 
+/* Button styling */
 button {
-  /* Keep your existing styles for the button */
-  background-color: black;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  transition: background-color 0.3s;
+    padding: 15px 30px;
+    background: linear-gradient(135deg, #00ff00, #008000);
+    color: #000;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    text-shadow: 0 0 5px #00ff00;
+    box-shadow: 0 0 10px #00ff00;
+    transition: all 0.3s ease;
+    animation: pulse 2s infinite;
+    margin-top: 20px;
+    border: 2px solid #00ff00;
 }
 
 button:hover {
-  background-color: #333;
+    transform: scale(1.05);
+    box-shadow: 0 0 20px #00ff00;
+    background: linear-gradient(135deg, #008000, #00ff00);
 }
 
-.main-container {
-  background-color: var(--tile-bg-color);
-  padding: var(--tile-padding);
-  margin: var(--tile-margin);
-  color: var(--text-color);
-  text-align: center;
-  transition: transform 0.1s;
-  margin-left: 40px; /* Adjusted left margin */
-  margin-right: 40px; /* Adjusted right margin */
-  border-radius: 5px;
+/* Status messages */
+#status {
+    margin: 20px 0;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: bold;
+    animation: flicker 4s infinite;
+    border: 2px solid #00ff00;
+    background: rgba(0, 20, 0, 0.5);
 }
 
-.link {
-  background-color: black;
-  color: white;
-  padding: 10px 0px;
-  margin-top: 20px; /* Adjust margin as needed */
+.success {
+    color: #00ff00;
+    text-shadow: 0 0 10px #00ff00;
 }
 
-.link a {
-  color: #007BFF; /* Adjust link color */
-  text-decoration: none;
-  cursor: pointer;
+.error {
+    color: #ff0000;
+    text-shadow: 0 0 10px #ff0000;
 }
 
-.link a:hover {
-  text-decoration: underline; /* Add underline on hover */
-}
-
+/* Footer styling */
 footer {
-  background-color: var(--footer-bg-color);
-  color: var(--text-color);
-  text-align: center;
-  padding: 0px;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
+    text-align: center;
+    padding: 20px;
+    color: #00ff00;
+    border-top: 2px solid #00ff00;
+    margin-top: 30px;
+    animation: flicker 6s infinite;
+    font-size: 0.9em;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    h1 {
+        font-size: 2em;
+        margin: 10px 0;
+    }
+    
+    .main-container {
+        margin: 10px;
+        padding: 10px;
+    }
+    
+    button {
+        width: 100%;
+        font-size: 1.1em;
+    }
+}
+
+/* Additional chaotic elements */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+/* Animated floating elements */
+.floating-element {
+    position: absolute;
+    opacity: 0.1;
+    z-index: -1;
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Grid lines for chaotic effect */
+.grid-lines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(0, 255, 0, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 0, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+    pointer-events: none;
+    z-index: -2;
 }

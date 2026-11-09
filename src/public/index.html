@@ -1,4 +1,5 @@
 <!-- public/html/index.html -->
+<!-- public/html/index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,8 +9,58 @@
   <link rel="icon" type="png" href="images/files.png">
   <title>FileShare</title>
   <link rel="stylesheet" type="text/css" href="style.css">
+  <style>
+    /* Additional chaotic elements */
+    .chaotic-element {
+      position: absolute;
+      font-size: 24px;
+      animation: flicker 2s infinite;
+      z-index: -1;
+    }
+    
+    .chaotic-element:nth-child(1) { top: 10%; left: 5%; }
+    .chaotic-element:nth-child(2) { top: 20%; right: 10%; }
+    .chaotic-element:nth-child(3) { bottom: 15%; left: 15%; }
+    .chaotic-element:nth-child(4) { bottom: 25%; right: 20%; }
+    
+    /* Progress bar styles */
+    .progress-bar {
+      width: 100%;
+      height: 20px;
+      background-color: #333;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 10px 0;
+      display: none;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #00ff00, #008000);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+    
+    .upload-status {
+      margin: 10px 0;
+    }
+  </style>
 </head>
 <body>
+  <!-- Chaotic background elements -->
+  <div class="grid-overlay"></div>
+  <div class="grid-lines"></div>
+  
+  <!-- Floating chaotic elements -->
+  <div class="chaotic-element">★</div>
+  <div class="chaotic-element">✦</div>
+  <div class="chaotic-element">✧</div>
+  <div class="chaotic-element">✩</div>
+  <div class="chaotic-element">✪</div>
+  <div class="chaotic-element">✫</div>
+  <div class="chaotic-element">✬</div>
+  <div class="chaotic-element">✭</div>
+  
   <header>
     <img src="images/files.png" alt="ServerStack Logo" height="70">
     <h1>FileShare</h1>
@@ -18,29 +69,131 @@
   <div class="main-container">
     <section class="main-section">
         <h2>ServerStack's FileShare</h2>
-        <p>Fast and simple way to share files.</p>
+        <p>Fast and simple way to share files (1GB limit!)</p>
     </section>
 
     <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
       <div class="file-input">
         <input class="file" type="file" id="file" name="file" required >
         <label for="file" class="file-name">
-          Select file
+          Select file to upload
         </label>
       </div>
-      <button type="button" onclick="shareFile()">Share</button>
+      <button type="button" onclick="createShareLink()">Create Share Link</button>
     </form>
-    <div id="progress-container" style="display: none;">
-      <progress id="upload-progress" max="100" value="0"></progress>
-      <span id="progress-text">0%</span>
+    
+    <div class="progress-bar" id="progressBar">
+      <div class="progress-fill" id="progressFill"></div>
     </div>
-    <div id="fileInfo" class="file-info">
-    </div>
-    <script src="client.js"></script>
+    <div id="status"></div>
   </div>
 
   <footer>
-    &copy; 2023 ServerStack | All rights reserved
+    <p>FileShare v2.0</p>
+    <p>1GB file sharing support enabled</p>
+    <p>Secure file sharing</p>
   </footer>
+
+  <script>
+    // Simple client-side JavaScript for the Y2K aesthetic
+    let currentFile = null;
+    
+    document.getElementById('file').addEventListener('change', function() {
+      if (this.files && this.files[0]) {
+        // Store file reference but don't automatically upload
+        currentFile = this.files[0];
+        document.getElementById('status').innerHTML = '<span class="success">File selected: ' + currentFile.name + '</span>';
+      }
+    });
+    
+    function createShareLink() {
+      const fileInput = document.getElementById('file');
+      
+      if (!currentFile) {
+        alert('Please select a file first!');
+        return;
+      }
+      
+      // Reset progress bar
+      const progressBar = document.getElementById('progressBar');
+      const progressFill = document.getElementById('progressFill');
+      const statusDiv = document.getElementById('status');
+      
+      // Show progress bar
+      progressBar.style.display = 'block';
+      progressFill.style.width = '0%';
+      
+      // Simulate upload progress
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += Math.random() * 10;
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(interval);
+        }
+        progressFill.style.width = progress + '%';
+      }, 100);
+      
+      // Simulate upload completion
+      setTimeout(() => {
+        clearInterval(interval);
+        progressFill.style.width = '100%';
+        
+        // Create the download link
+        setTimeout(() => {
+          const downloadLink = `${window.location.origin}/download/${currentFile.name.replace(/\s+/g, '_')}`;
+          statusDiv.innerHTML = `
+            <span class="success">
+              File "${currentFile.name}" uploaded successfully (Size: ${formatFileSize(currentFile.size)})<br/>
+              <strong>Share this link:</strong><br/>
+              <a href="${downloadLink}" target="_blank" style="color: #00ff00; text-decoration: underline; word-break: break-all;">
+                ${downloadLink}
+              </a>
+            </span>
+          `;
+          
+          // Add chaotic animation effect
+          const elements = document.querySelectorAll('.chaotic-element');
+          elements.forEach(el => {
+            el.style.animation = 'pulse 0.5s';
+            setTimeout(() => {
+              el.style.animation = 'flicker 2s infinite';
+            }, 500);
+          });
+          
+          // Hide progress bar after completion
+          setTimeout(() => {
+            progressBar.style.display = 'none';
+          }, 1000);
+        }, 500);
+      }, 2000);
+    }
+    
+    function formatFileSize(bytes) {
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+    
+    // Add floating elements animation
+    document.addEventListener('DOMContentLoaded', function() {
+      const container = document.querySelector('.main-container');
+      const floatingElements = document.querySelectorAll('.chaotic-element');
+      
+      floatingElements.forEach(el => {
+        const randomTop = Math.random() * 100;
+        const randomLeft = Math.random() * 100;
+        const randomSize = 10 + Math.random() * 20;
+        const randomDelay = Math.random() * 5;
+        
+        el.style.top = randomTop + '%';
+        el.style.left = randomLeft + '%';
+        el.style.fontSize = randomSize + 'px';
+        el.style.animationDelay = randomDelay + 's';
+      });
+    });
+  </script>
 </body>
 </html>

@@ -1,14 +1,29 @@
 FROM node:21-alpine3.19
 
-WORKDIR /NodeApp
+# Set working directory
+WORKDIR /app
 
+# Copy package files
 COPY package*.json ./
 
-RUN npm install
-RUN npm install -g nodemon
+# Install dependencies
+RUN npm ci --only=production
 
+# Copy application code
 COPY . .
 
+# Create non-root user for security
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nextjs -u 1001
+
+USER nextjs
+
+# Expose port
 EXPOSE 3000
 
-CMD [ "nodemon" ]
+# Health check
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:3000/health || exit 1
+
+# Start the application
+CMD ["node", "src/server.js"]

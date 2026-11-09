@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: fileshare-app
+    environment:
+      - DATABASE_URL=mongodb://mongodb:27017/FileShare
+      - PORT=3000
+      - NODE_ENV=production
+      - MAX_FILE_SIZE=1048576000 # 1GB limit
+      - UPLOAD_PATH=/app/uploads
+    volumes:
+      - ./uploads:/app/uploads
+      - ./logs:/app/logs
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+    networks:
+      - fileshare-network
+
+  nginx:
+    image: nginx:alpine
+    container_name: fileshare-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./uploads:/uploads
+    depends_on:
+      - app
+    restart: unless-stopped
+    networks:
+      - fileshare-network
+
+  mongodb:
+    image: mongo:7.0
+    container_name: fileshare-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    restart: unless-stopped
+    networks:
+      - fileshare-network
+
+volumes:
+  mongodb_data:
+
+networks:
+  fileshare-network:
+    driver: bridge
